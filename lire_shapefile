@@ -8,5 +8,5 @@ data.plot(column='borough', categorical=True)
 # subshp : chemin du shapefile : https://data.cityofnewyork.us/Transportation/Subway-Entrances/drex-xx56
 subshp = '....../subway_entrances.shp'
 subway=gpd.read_file(subshp).to_crs({'init' :'epsg:4326'})
-# le shapefile est constitué de points (voir la colonne "geometry")
+# le shapefile est constitue de points (voir la colonne "geometry")
 subway.plot(markersize=1)

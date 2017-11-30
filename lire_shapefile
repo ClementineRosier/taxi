@@ -1,8 +1,8 @@
 import geopandas as gpd
 # taxishp : chemin du shapefile taxi_zones
-fp = '....../taxi_zones.shp'
+taxishp = '....../taxi_zones.shp'
 # conversion des coordonnees
-data=gpd.read_file(taxishp).to_crs({'init' :'epsg:4326'})
+data = gpd.read_file(taxishp).to_crs({'init' :'epsg:4326'})
 # plot avec les boroughs en couleur
 data.plot(column='borough', categorical=True)
 # subshp : chemin du shapefile : https://data.cityofnewyork.us/Transportation/Subway-Entrances/drex-xx56
@@ -10,3 +10,7 @@ subshp = '....../subway_entrances.shp'
 subway=gpd.read_file(subshp).to_crs({'init' :'epsg:4326'})
 # le shapefile est constitue de points (voir la colonne "geometry")
 subway.plot(markersize=1)
+# fusionner les deux (on peut ajouter si on le souhaite les boroughs en precisant dans data.plot() la colonne
+ax = data.plot()
+subway.plot(ax=ax, markersize=0.01, color="red")
+ax.set_axis_off()

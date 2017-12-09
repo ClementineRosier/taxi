@@ -1,0 +1,18 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+data_weather={}
+loc = ('Newark','CentralPark','Islip','Bridgeport')
+for i in loc:
+    data_weather["weather_"+i] = pd.read_csv("weather_october_{0}.csv".format(i), sep=";").rename(columns={'Maximum': 'Maximum_{0}'.format(i)}).rename(columns={'Minimum': 'Minimum_{0}'.format(i)})
+    print("")
+    print("weather in "+i)
+    print(data_weather["weather_"+i].head())
+    print("_________________________________________________________________________________")
+
+for var in ['Maximum','Minimum']:    
+    weather_NYC = pd.DataFrame(data=data_weather['weather_Newark'], columns=['Date'])
+    for i in loc:
+        weather_NYC = pd.merge(weather_NYC, pd.DataFrame(data_weather["weather_"+i], columns=['Date','{1}_{0}'.format(i,var)]), on='Date')
+    weather_NYC=weather_NYC.set_index('Date')
+    plt.figure(); weather_NYC.plot(figsize=(12,4)); plt.legend(loc='best')
+    plt.show()

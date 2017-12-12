@@ -4,10 +4,8 @@ liste des parkings - vérifier si nbr de places
 https://data.cityofnewyork.us/City-Government/Parking-Lots/e2f7-cs7i
 
 lieux touristiques
-https://data.cityofnewyork.us/City-Government/Points-Of-Interest/rxuy-2muj
-
-Listes des terrains de golf
-https://data.cityofnewyork.us/City-Government/Golf-Courses/rjqi-t95z
+https://data.cityofnewyork.us/City-Government/Points-Of-Interest/rxuy-2mu
+=> récupérer les églises, les consulats, les musées.
 
 LIstes universités and college
 https://data.cityofnewyork.us/Education/Colleges-and-Universities/4kym-4xw5
@@ -15,12 +13,17 @@ https://data.cityofnewyork.us/Education/Colleges-and-Universities/4kym-4xw5
 Liste hopitaux
 https://data.cityofnewyork.us/Health/NYC-Health-and-Hospitals-Corporation-Facilities/ymhw-9cz9
 
+liste stations de citi bike
+https://www.citibikenyc.com/
 
 
 BUSINESS
 
 liste des bibliothèques  - shapefile - symbole d'accès a la culture
 https://data.cityofnewyork.us/Business/Library/p4pf-fyc4
+
+Listes des terrains de golf
+https://data.cityofnewyork.us/City-Government/Golf-Courses/rjqi-t95z
 
 list des "Primary Commercial Zone" je ne sais pas trop ce que sais exactement 
 https://data.cityofnewyork.us/Business/Primary-Commercial-Zoning-by-lot/pwhj-ikym/about

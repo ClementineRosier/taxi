@@ -1,0 +1,21 @@
+#matplotlib inline
+import geopandas as gpd
+import pandas as pd
+import random
+from shapely.geometry import Point
+import numpy as np
+import geopandas as gpd
+
+# on charge la donnée
+college = 'C:/Users/cleme/Documents/ENSAE/2A/S1/Python/Projet/Donnees/original_collegeanduniversity.csv'
+# !!! on prend un échantillon de 100 observations pour commencer
+df_college = pd.read_csv(college, sep=',')
+df_college.head()
+print(df_college.columns)
+col_college = df_college.iloc[0:77,0]
+#col_college = 0
+#col_college = df_college.columns[,["the_geom"]
+#col_college.columns['geom_college']
+#col_college.head()
+col_college.name="geom_college"
+# on obtient une série avec une seule colonne qui regroupe tous les points et l'initulé de cette colonne est "geom_college"

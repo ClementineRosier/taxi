@@ -1,17 +1,17 @@
 FICHIER PRINCIPAL : JUIN 2016
 yellow_tripdata_2016-06.csv
 
-A GARDER
+A GARDER  ( Bertille : en montant, clémentine en descendant - DONE : fait)
 
-liste des parkings - vérifier si nbr de places
+PBLM: CE SONT DES MULTIIPOLIGON COMME DANS LES PARCS - liste des parkings - vérifier si nbr de places
 https://data.cityofnewyork.us/City-Government/Parking-Lots/e2f7-cs7i
+
+LIstes universités and college
+https://data.cityofnewyork.us/Education/Colleges-and-Universities/4kym-4xw5
 
 lieux touristiques
 https://data.cityofnewyork.us/City-Government/Points-Of-Interest/rxuy-2mu
 => récupérer les églises, les consulats, les musées.
-
-LIstes universités and college
-https://data.cityofnewyork.us/Education/Colleges-and-Universities/4kym-4xw5
 
 Liste hopitaux
 https://data.cityofnewyork.us/Health/NYC-Health-and-Hospitals-Corporation-Facilities/ymhw-9cz9

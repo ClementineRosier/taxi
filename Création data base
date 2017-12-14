@@ -1,21 +1,28 @@
-#matplotlib inline
 import geopandas as gpd
 import pandas as pd
 import random
 from shapely.geometry import Point
 import numpy as np
-import geopandas as gpd
 
-# on charge la donnée
+
+## college & universities
+# load data
 college = 'C:/Users/cleme/Documents/ENSAE/2A/S1/Python/Projet/Donnees/original_collegeanduniversity.csv'
-# !!! on prend un échantillon de 100 observations pour commencer
 df_college = pd.read_csv(college, sep=',')
-df_college.head()
-print(df_college.columns)
-col_college = df_college.iloc[0:77,0]
-#col_college = 0
-#col_college = df_college.columns[,["the_geom"]
-#col_college.columns['geom_college']
-#col_college.head()
+#build column based of the geo points
+col_college = df_college['the_geom']
 col_college.name="geom_college"
-# on obtient une série avec une seule colonne qui regroupe tous les points et l'initulé de cette colonne est "geom_college"
+
+## health facilities
+#load data
+hospital = 'C:/Users/cleme/Documents/ENSAE/2A/S1/Python/Projet/Donnees/original_hospitals.csv'
+df_hospital = pd.read_csv(hospital, sep=";")
+#extract long and lat from location 1 column in the df 
+df_hospital['position'] = df_hospital['Location 1'].str.replace(r'[^(]*\(|\)[^)]*', '')
+df_hospital['newlongitude'] = df_hospital['position'].str.replace(r'[^,]*\,', '')
+df_hospital['newlatitude']= df_hospital['position'].str.replace(r'\,[^,]*', '')
+#convert them as a float and then as geo points to build the specific column
+df_hospital['newlatitude'] = df_hospital['newlatitude'].astype(float)
+df_hospital['newlongitude'] = df_hospital['newlongitude'].astype(float)
+df_hospital['geom_hospital'] = gpd.GeoSeries([Point(xy) for xy in zip(df_hospital.newlongitude, df_hospital.newlatitude)])
+col_hospital = df_hospital['geom_hospital']

@@ -26,3 +26,10 @@ df_hospital['newlatitude'] = df_hospital['newlatitude'].astype(float)
 df_hospital['newlongitude'] = df_hospital['newlongitude'].astype(float)
 df_hospital['geom_hospital'] = gpd.GeoSeries([Point(xy) for xy in zip(df_hospital.newlongitude, df_hospital.newlatitude)])
 col_hospital = df_hospital['geom_hospital']
+
+
+##Points of Interest
+#load data
+PoI = 'C:/Users/cleme/Documents/ENSAE/2A/S1/Python/Projet/Donnees/original_PointOfInterest.csv'
+df_PoI = pd.read_csv(PoI, sep=',')
+col_religion = df_PoI[['the_geom','NAME']]

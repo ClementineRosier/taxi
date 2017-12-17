@@ -1,3 +1,4 @@
+#matplotlib inline
 import geopandas as gpd
 import pandas as pd
 import random
@@ -32,4 +33,55 @@ col_hospital = df_hospital['geom_hospital']
 #load data
 PoI = 'C:/Users/cleme/Documents/ENSAE/2A/S1/Python/Projet/Donnees/original_PointOfInterest.csv'
 df_PoI = pd.read_csv(PoI, sep=',')
-col_religion = df_PoI[['the_geom','NAME']]
+
+ #recensement des abréviations
+ab_religion = pd.Series(['religion','CATHEDRAL','SYNAGOGUE','EPISCOPAL', 'TEMPLE', 'CHUR','TMPL','TABERNACLE',' CH ', 'CATHDL', 'CHAPEL','CONGREGAT','CONGEGRATION', 'EVANGICAL LUTH','ISRAEL'])
+ab_hotel = pd.Series(['hotel','PLAZA','HOTEL','INTER CONTINENTAL','WALDORF','HTL'])
+ab_consulate = pd.Series(['consulate','CONSULATE'])
+ab_park= pd.Series(['park','PARK','PLGD','PLAYGROUND', 'PLAYGRND', 'RECREATION', 'SQUARE', 'GARDEN'])
+ab_theatre = pd.Series(['theatre','THEATRE', 'THTR'])
+ab_museum = pd.Series(['museum','MUSEUM','GALLERY'])
+ab_mall = pd.Series(['mall','MALL','APPLE STORE'])
+ab_beach = pd.Series(['beach','BEACH','SURF'])
+ab_golf= pd.Series(['golf','GOLF'])
+ab_school = pd.Series(['school','HS','HIGH SCHOOL', 'SCHL', ' SC ','SCHOOL','ACADEMY'])
+ab_library = pd.Series(['library','LIBRARY'])
+ab_daycare = pd.Series(['daycare','DAY CARE','DAYCARE','NURSERY','NURSING','NURSIG'])
+ab_parking = pd.Series(['parking','PARKING'])
+ab_cemetery = pd.Series (['cemetry','CEMETERY','CMTRY'])
+
+categories = pd.DataFrame([ab_religion,ab_hotel,ab_consulate,ab_park,ab_theatre,ab_museum,ab_mall,ab_beach,ab_golf,ab_school,ab_library,ab_daycare,ab_parking,ab_cemetery ])
+categories =categories.set_index([0])
+
+#attempt 1: extract directly interesting points
+#col_religion = df_PoI[['the_geom','NAME'] if ab_religion.isin['NAME']]
+
+
+#on vire les nan de la colonne NAME car impossible de les catégoriser
+df_PoI=df_PoI.dropna(subset=['NAME'])
+df_PoI.reset_index(drop=True, inplace=True)
+
+
+#attempt 2: : we create a column indicating witha dummy varaible wether this is to be included in the category
+#a=5
+#df_PoI_test=df_PoI.iloc[0:a]
+j=0
+df_PoI['dum_religion']=0
+while j < df_PoI.size:
+    i=0
+    while ( i < ab_religion.size and df_PoI.loc[j,'dum_religion']==0 ):
+        if ab_religion.loc[i] in df_PoI.loc[j,'NAME']:
+            df_PoI.set_value(j,'dum_religion', 1)
+        print('On recherche ', i,' dans ', j, '. Limit is ', ab_religion.size)
+        i+=1
+    j+=1
+#while j < a+1 :
+ #   while ( i < ab_religion.size):
+  #      if ab_religion.loc[i] in df_PoI_test.loc[j,'NAME']:
+  #     if ab_religion.loc[i] in df_PoI_test.loc[j,'NAME']:
+    #        df_PoI_test[j,'dum_religion']= 1 
+            #print(b)
+     #   print(i)
+      #  i+=1
+            #break
+    #j+=1

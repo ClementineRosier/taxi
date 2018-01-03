@@ -42,7 +42,7 @@ ab_park= pd.Series(['park','PARK','PLGD','PLAYGROUND', 'PLAYGRND', 'RECREATION',
 ab_theatre = pd.Series(['theatre','THEATRE', 'THTR'])
 ab_museum = pd.Series(['museum','MUSEUM','GALLERY'])
 ab_mall = pd.Series(['mall','MALL','APPLE STORE'])
-ab_beach = pd.Series(['beach','BEACH','SURF'])
+#ab_beach = pd.Series(['beach','BEACH','SURF'])
 ab_golf= pd.Series(['golf','GOLF'])
 ab_school = pd.Series(['school','HS','HIGH SCHOOL', 'SCHL', ' SC ','SCHOOL','ACADEMY'])
 ab_library = pd.Series(['library','LIBRARY'])
@@ -50,8 +50,8 @@ ab_daycare = pd.Series(['daycare','DAY CARE','DAYCARE','NURSERY','NURSING','NURS
 ab_parking = pd.Series(['parking','PARKING'])
 ab_cemetery = pd.Series (['cemetry','CEMETERY','CMTRY'])
 
-categories = pd.DataFrame([ab_religion,ab_hotel,ab_consulate,ab_park,ab_theatre,ab_museum,ab_mall,ab_beach,ab_golf,ab_school,ab_library,ab_daycare,ab_parking,ab_cemetery ])
-categories =categories.set_index([0])
+#categories = pd.DataFrame([ab_religion,ab_hotel,ab_consulate,ab_park,ab_theatre,ab_museum,ab_mall,ab_beach,ab_golf,ab_school,ab_library,ab_daycare,ab_parking,ab_cemetery ])
+#categories =categories.set_index([0])
 
 #attempt 1: extract directly interesting points
 #col_religion = df_PoI[['the_geom','NAME'] if ab_religion.isin['NAME']]
@@ -61,27 +61,198 @@ categories =categories.set_index([0])
 df_PoI=df_PoI.dropna(subset=['NAME'])
 df_PoI.reset_index(drop=True, inplace=True)
 
+#categorie= categories.index[0]
+
 
 #attempt 2: : we create a column indicating witha dummy varaible wether this is to be included in the category
 #a=5
 #df_PoI_test=df_PoI.iloc[0:a]
+
+# Création de la dummy religion
 j=0
 df_PoI['dum_religion']=0
-while j < df_PoI.size:
-    i=0
-    while ( i < ab_religion.size and df_PoI.loc[j,'dum_religion']==0 ):
-        if ab_religion.loc[i] in df_PoI.loc[j,'NAME']:
-            df_PoI.set_value(j,'dum_religion', 1)
-        print('On recherche ', i,' dans ', j, '. Limit is ', ab_religion.size)
-        i+=1
-    j+=1
-#while j < a+1 :
- #   while ( i < ab_religion.size):
-  #      if ab_religion.loc[i] in df_PoI_test.loc[j,'NAME']:
-  #     if ab_religion.loc[i] in df_PoI_test.loc[j,'NAME']:
-    #        df_PoI_test[j,'dum_religion']= 1 
-            #print(b)
-     #   print(i)
-      #  i+=1
-            #break
-    #j+=1
+df_PoI['dum_hotel']=0
+df_PoI['dum_consulate']=0
+df_PoI['dum_park']=0
+df_PoI['dum_theatre']=0
+df_PoI['dum_museum']=0
+df_PoI['dum_mall']=0
+df_PoI['dum_school']=0
+df_PoI['dum_library']=0
+df_PoI['dum_daycare']=0
+df_PoI['dum_parking']=0
+df_PoI['dum_cemetery']=0
+
+
+#we create dummy variables to classify the points of interest
+
+
+while j < (df_PoI.shape[0] - 1) :
+     
+     i=0
+     while ( i < ab_religion.size and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_religion.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_religion', 1)
+ #         print('On recherche ', i,' dans ', j, '. Limit is ', ab_religion.size)
+          i+=1
+     
+     i=0
+     while ( i < ab_hotel.size and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_hotel.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_hotel', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_hotel.size)
+          i+=1      
+     
+     i=0
+     while ( i < ab_consulate.size and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_consulate.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_consulate', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_consulate.size)
+          i+=1
+    
+#attention park étant inlus dans le mot parking il faut absolument tester parking avant park    
+     i=0 
+     while ( i < ab_parking.size and df_PoI.loc[j,'dum_parking']==0 and df_PoI.loc[j,'dum_daycare']==0 and df_PoI.loc[j,'dum_library']==0 and df_PoI.loc[j,'dum_school']==0 and df_PoI.loc[j,'dum_mall']==0 and df_PoI.loc[j,'dum_museum']==0 and df_PoI.loc[j,'dum_theatre']==0and df_PoI.loc[j,'dum_park']==0and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_parking.loc[i] in df_PoI.loc[j,'NAME']:
+             df_PoI.set_value(j,'dum_parking', 1)
+ #         print('On recherche ', i,' dans ', j, '. Limit is ', ab_parking.size)
+          i+=1          
+          
+     i=0 
+     while ( i < ab_park.size and df_PoI.loc[j,'dum_park']==0and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_park.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_park', 1)
+ #         print('On recherche ', i,' dans ', j, '. Limit is ', ab_park.size)
+          i+=1
+    
+     i=0 
+     while ( i < ab_theatre.size and df_PoI.loc[j,'dum_theatre']==0 and df_PoI.loc[j,'dum_park']==0 and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_theatre.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_theatre', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_theatre.size)
+          i+=1
+   
+     i=0 
+     while ( i < ab_museum.size and df_PoI.loc[j,'dum_museum']==0 and df_PoI.loc[j,'dum_theatre']==0and df_PoI.loc[j,'dum_park']==0and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_museum.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_museum', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_museum.size)
+          i+=1
+
+     i=0 
+     while ( i < ab_mall.size and df_PoI.loc[j,'dum_mall']==0 and df_PoI.loc[j,'dum_museum']==0 and df_PoI.loc[j,'dum_theatre']==0and df_PoI.loc[j,'dum_park']==0and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_mall.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_mall', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_mall.size)
+          i+=1
+          
+          
+     i=0 
+     while ( i < ab_school.size and df_PoI.loc[j,'dum_school']==0 and df_PoI.loc[j,'dum_mall']==0 and df_PoI.loc[j,'dum_museum']==0 and df_PoI.loc[j,'dum_theatre']==0and df_PoI.loc[j,'dum_park']==0and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_school.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_school', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_school.size)
+          i+=1
+
+
+     i=0 
+     while ( i < ab_library.size and df_PoI.loc[j,'dum_library']==0 and df_PoI.loc[j,'dum_school']==0 and df_PoI.loc[j,'dum_mall']==0 and df_PoI.loc[j,'dum_museum']==0 and df_PoI.loc[j,'dum_theatre']==0and df_PoI.loc[j,'dum_park']==0and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_library.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_library', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_library.size)
+          i+=1
+          
+
+     i=0 
+     while ( i < ab_daycare.size and df_PoI.loc[j,'dum_daycare']==0 and df_PoI.loc[j,'dum_library']==0 and df_PoI.loc[j,'dum_school']==0 and df_PoI.loc[j,'dum_mall']==0 and df_PoI.loc[j,'dum_museum']==0 and df_PoI.loc[j,'dum_theatre']==0and df_PoI.loc[j,'dum_park']==0and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_daycare.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_daycare', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_daycare.size)
+          i+=1          
+          
+          
+          
+     i=0 
+     while ( i < ab_cemetery.size and df_PoI.loc[j,'dum_cemetery']==0 and df_PoI.loc[j,'dum_parking']==0 and df_PoI.loc[j,'dum_daycare']==0 and df_PoI.loc[j,'dum_library']==0 and df_PoI.loc[j,'dum_school']==0 and df_PoI.loc[j,'dum_mall']==0 and df_PoI.loc[j,'dum_museum']==0 and df_PoI.loc[j,'dum_theatre']==0and df_PoI.loc[j,'dum_park']==0and df_PoI.loc[j,'dum_consulate']==0 and df_PoI.loc[j,'dum_hotel']==0 and df_PoI.loc[j,'dum_religion']==0 ):
+          if ab_cemetery.loc[i] in df_PoI.loc[j,'NAME']:
+              df_PoI.set_value(j,'dum_cemetery', 1)
+#          print('On recherche ', i,' dans ', j, '. Limit is ', ab_cemetery.size)
+          i+=1          
+          
+     j+=1
+     
+print("sortie de la boucle")
+
+#create columns with geographic locations for every type of building 
+
+#lieux de culte
+df_religion=df_PoI[df_PoI.dum_religion!=0]
+df_religion.reset_index(drop=True, inplace=True)
+col_religion=df_religion['the_geom']
+col_religion.name="geom_religion"
+
+#hotels
+df_hotel=df_PoI[df_PoI.dum_hotel!=0]
+df_hotel.reset_index(drop=True, inplace=True)
+col_hotel=df_hotel['the_geom']
+col_hotel.name="geom_hotel"
+
+#consulate
+df_consulate=df_PoI[df_PoI.dum_consulate!=0]
+df_consulate.reset_index(drop=True, inplace=True)
+col_consulate=df_consulate['the_geom']
+col_consulate.name="geom_consulate"
+
+#park
+df_park=df_PoI[df_PoI.dum_park!=0]
+df_park.reset_index(drop=True, inplace=True)
+col_park=df_park['the_geom']
+col_park.name="geom_park"
+
+#theatre
+df_theatre=df_PoI[df_PoI.dum_theatre!=0]
+df_theatre.reset_index(drop=True, inplace=True)
+col_theatre=df_theatre['the_geom']
+col_theatre.name="geom_theatre"
+
+#museum
+df_museum=df_PoI[df_PoI.dum_museum!=0]
+df_museum.reset_index(drop=True, inplace=True)
+col_museum=df_museum['the_geom']
+col_museum.name="geom_museum"
+
+#mall
+df_mall=df_PoI[df_PoI.dum_mall!=0]
+df_mall.reset_index(drop=True, inplace=True)
+col_mall=df_mall['the_geom']
+col_mall.name="geom_mall"
+
+#school
+df_school=df_PoI[df_PoI.dum_school!=0]
+df_school.reset_index(drop=True, inplace=True)
+col_school=df_school['the_geom']
+col_school.name="geom_school"
+
+#library
+df_library=df_PoI[df_PoI.dum_library!=0]
+df_library.reset_index(drop=True, inplace=True)
+col_library=df_library['the_geom']
+col_library.name="geom_library"
+
+#daycare
+df_daycare=df_PoI[df_PoI.dum_daycare!=0]
+df_daycare.reset_index(drop=True, inplace=True)
+col_daycare=df_daycare['the_geom']
+col_daycare.name="geom_daycare"
+
+#parking
+df_parking=df_PoI[df_PoI.dum_parking!=0]
+df_parking.reset_index(drop=True, inplace=True)
+col_parking=df_parking['the_geom']
+col_parking.name="geom_parking"
+
+#cemetery
+df_cemetery=df_PoI[df_PoI.dum_cemetery!=0]
+df_cemetery.reset_index(drop=True, inplace=True)
+col_cemetery=df_cemetery['the_geom']
+col_cemetery.name="geom_cemetery"
